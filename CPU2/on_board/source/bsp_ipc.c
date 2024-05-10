@@ -115,6 +115,8 @@ void BSP_IPC_initMessageQueue(
         IPC_CPUxCPU_Interrupt_RSV[ipcInt_L] = PutBufferOffset;
     }
 
+    msgQueue->ipcType = ipcType;
+
     BSP_IPC_PutBuffer_t *putBuffer = BSP_IPC_PutInstance[ipcType];
     putBuffer = putBuffer+PutBufferOffset;
 
@@ -161,8 +163,8 @@ void BSP_IPC_initMessageQueue(
 //
 //*****************************************************************************
 bool BSP_IPC_sendMessageToQueue(
-        IPC_Type_t ipcType, volatile BSP_IPC_MessageQueue_t *msgQueue,
-        bool addrCorrEnable, BSP_IPC_Message_t *msg, bool block)
+        volatile BSP_IPC_MessageQueue_t *msgQueue,
+        BSP_IPC_Message_t *msg, bool addrCorrEnable, bool block)
 {
     //
     // Check for arguments
@@ -170,6 +172,7 @@ bool BSP_IPC_sendMessageToQueue(
     ASSERT(msgQueue != NULL);
     ASSERT(msg != NULL);
 
+    IPC_Type_t ipcType = msgQueue->ipcType;
     uint16_t writeIndex;
     uint16_t readIndex;
     uint16_t ret = true;
@@ -226,9 +229,9 @@ bool BSP_IPC_sendMessageToQueue(
 // IPC_readMessageFromQueue
 //
 //*****************************************************************************
-bool BSP_IPC_readMessageFromQueue(IPC_Type_t ipcType,
-                                   volatile BSP_IPC_MessageQueue_t *msgQueue,
-                                   bool addrCorrEnable, BSP_IPC_Message_t *msg, bool block)
+bool BSP_IPC_readMessageFromQueue(
+        volatile BSP_IPC_MessageQueue_t *msgQueue,
+        BSP_IPC_Message_t *msg, bool addrCorrEnable, bool block)
 {
     //
     // Check for arguments
@@ -236,6 +239,7 @@ bool BSP_IPC_readMessageFromQueue(IPC_Type_t ipcType,
     ASSERT(msgQueue != NULL);
     ASSERT(msg != NULL);
 
+    IPC_Type_t ipcType = msgQueue->ipcType;
     uint16_t writeIndex;
     uint16_t readIndex;
     uint16_t ret = true;

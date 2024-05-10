@@ -71,6 +71,7 @@ typedef struct
     BSP_IPC_PutBuffer_t *  PutBuffer;
     volatile BSP_IPC_GetBuffer_t *  GetBuffer;
     uint32_t         PutFlag;
+    IPC_Type_t ipcType;
 } BSP_IPC_MessageQueue_t;
 
 typedef struct
@@ -93,12 +94,12 @@ void BSP_IPC_initMessageQueue(
         uint32_t ipcInt_L, uint32_t ipcInt_R);
 
 bool BSP_IPC_sendMessageToQueue(
-        IPC_Type_t ipcType, volatile BSP_IPC_MessageQueue_t *msgQueue,
-        bool addrCorrEnable, BSP_IPC_Message_t *msg, bool block);
+        volatile BSP_IPC_MessageQueue_t *msgQueue,
+        BSP_IPC_Message_t *msg, bool addrCorrEnable, bool block);
 
 bool BSP_IPC_readMessageFromQueue(
-        IPC_Type_t ipcType, volatile BSP_IPC_MessageQueue_t *msgQueue,
-        bool addrCorrEnable, BSP_IPC_Message_t *msg, bool block);
+        volatile BSP_IPC_MessageQueue_t *msgQueue,
+        BSP_IPC_Message_t *msg, bool addrCorrEnable, bool block);
 
 
 #endif
